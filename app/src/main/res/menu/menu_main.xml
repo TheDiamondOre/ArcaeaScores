@@ -7,4 +7,9 @@
         android:orderInCategory="100"
         android:title="@string/about_app"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_saveimage"
+        android:orderInCategory="2"
+        androud:title="@string/action_saveimage"
+        app:showAsAction="never" />
 </menu>

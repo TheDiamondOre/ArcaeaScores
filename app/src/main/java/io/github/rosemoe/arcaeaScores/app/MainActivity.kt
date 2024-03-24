@@ -49,6 +49,8 @@ class MainActivity : AppCompatActivity() {
                 onUpdateScoreClicked()
             }
         }
+        val layout = findViewByID<ConstraintLayout>(R.id.layout)
+        val button = findViewById<Menuitem>(R.id.action_saveimage)
         val exoSemiBold = Typeface.createFromAsset(assets, "fonts/Exo-SemiBold.ttf")
         val exoTypeface = Typeface.createFromAsset(assets, "fonts/Exo-Regular.ttf")
         findViewById<TextView>(R.id.player_name).let {
@@ -143,6 +145,17 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun createViewBitmap(view: View): Bitmap? {
+        val bitmap = Bitmap.createBitmap(
+            view.width, view.height, Bitmap.Config.RGB_565)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+    private fun saveImage(view: View) {
+        val imageBit = createViewBitmap_view)
+        MediaStore.Images.media.insertImage(contentResolver,imageBit,"Arcaea_Bests","Arcaea Bests")
+    }
     private fun updateScoreList() {
         if (!getDatabasePath("st3.db").exists()) {
             return
@@ -192,9 +205,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-
+            R.id.action_saveimage -> {
+                saveImage(layout)
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ArcaeaScores</string>
     <string name="about_app">About</string>
+    <string name="action_saveimage">Save as Image</string>
     <string name="click_to_set_name">Click to Set Name</string>
     <string name="pd_dialog_title">Updating Game Data</string>
     <string name="state_obtaining_root">Requesting Root Permission...</string>
