@@ -21,7 +21,6 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
-        android:id="@+id/main_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
@@ -87,10 +86,4 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@drawable/refresh" />
 
-    <Button
-        android:id="@+id/action_saveimage"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@strings/action_saveimage"
-        android:layout_alignParentEnd="true" />
 </RelativeLayout>

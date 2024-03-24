@@ -11,7 +11,6 @@
     <string name="name_empty">玩家名字不能为空</string>
     <string name="tip_reject_root">不允许使用 Root 权限，我们将无法获取游戏数据。</string>
     <string name="action_permit">允许</string>
-    <string name="action_saveimage">保存为图片</string>
     <string name="dialog_title_root">注意</string>
     <string name="dialog_msg_root">我们需要 Root 权限读取 Arcaea 游戏存档\n\n如果您信任我们的应用，请授予我们 Root 权限。</string>
     <string name="dialog_msg_about">ArcaeaScores 是由 Rosemoe 开发的，使用 Root 权限读取 Arcaea 游戏存档并自动计算 Best30 成绩的工具。\n\n从这里获取更新： https://github.com/Rosemoe/ArcaeaScores/releases/latest/</string>
