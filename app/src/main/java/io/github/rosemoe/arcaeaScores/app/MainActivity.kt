@@ -53,6 +53,9 @@ class MainActivity : AppCompatActivity() {
         val button = findViewById<Menuitem>(R.id.action_saveimage)
         val exoSemiBold = Typeface.createFromAsset(assets, "fonts/Exo-SemiBold.ttf")
         val exoTypeface = Typeface.createFromAsset(assets, "fonts/Exo-Regular.ttf")
+        action_saveimage.setOnClickListener {
+                onSetNameClicked()
+            }
         findViewById<TextView>(R.id.player_name).let {
             it.setOnClickListener {
                 onSetNameClicked()
@@ -204,9 +207,6 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
                 true
-            }
-            R.id.action_saveimage -> {
-                saveImage(layout)
             }
             else -> super.onOptionsItemSelected(item)
         }
