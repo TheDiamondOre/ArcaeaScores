@@ -4,12 +4,11 @@
     tools:context="io.github.rosemoe.arcaeaScores.app.MainActivity">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="100"
+        android:orderInCategory="1"
         android:title="@string/about_app"
         app:showAsAction="never" />
     <item
         android:id="@+id/action_saveimage"
         android:orderInCategory="2"
-        androud:title="@string/action_saveimage"
-        app:showAsAction="never" />
+        androud:title="@string/action_saveimage"/>
 </menu>
