@@ -91,6 +91,6 @@
         android:id="@+id/action_saveimage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_text="@strings/action_saveimage"
+        android:text="@strings/action_saveimage"
         android:layout_alignParentEnd="true" />
 </RelativeLayout>
