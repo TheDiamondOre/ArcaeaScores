@@ -50,10 +50,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
         val layout = findViewByID<ConstraintLayout>(R.id.layout)
-        val button = findViewById<Menuitem>(R.id.action_saveimage)
+        val button = findViewById<Button>(R.id.action_saveimage)
         val exoSemiBold = Typeface.createFromAsset(assets, "fonts/Exo-SemiBold.ttf")
         val exoTypeface = Typeface.createFromAsset(assets, "fonts/Exo-Regular.ttf")
-        action_saveimage.setOnClickListener {
+        button.setOnClickListener {
                 onSetNameClicked()
             }
         findViewById<TextView>(R.id.player_name).let {
