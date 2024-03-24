@@ -49,7 +49,7 @@ class MainActivity : AppCompatActivity() {
                 onUpdateScoreClicked()
             }
         }
-        val layout = findViewByID<ConstraintLayout>(R.id.layout)
+        val layout = findViewByID<RelativeLayout>(R.id.layout)
         val button = findViewById<Button>(R.id.action_saveimage)
         val exoSemiBold = Typeface.createFromAsset(assets, "fonts/Exo-SemiBold.ttf")
         val exoTypeface = Typeface.createFromAsset(assets, "fonts/Exo-Regular.ttf")
