@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
         prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         findViewById<ListView>(R.id.score_list).dividerHeight = 0
-        findViewById<FloatingActionButton>(R.id.fab).let {
+        findViewById<FloatingActionButton>(R.id.button_refresh).let {
             it.imageTintList = ColorStateList.valueOf(Color.WHITE)
             it.imageTintMode = PorterDuff.Mode.SRC_ATOP
             it.setOnClickListener {
@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         val et = EditText(this)
         et.layoutParams = ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
         AlertDialog.Builder(this)
-            .setTitle("设置名字")
+            .setTitle(R.string.set_name)
             .setView(et)
             .setPositiveButton(android.R.string.ok) { _, _ ->
                 if (et.text.isEmpty()) {
@@ -132,7 +132,7 @@ class MainActivity : AppCompatActivity() {
                     }
                     updateScoreList()
                     pd.cancel()
-                    showToast(R.string.tip_upddate_finished)
+                    showToast(R.string.tip_update_finished)
                 }
             }.onFailure {
                 withContext(Dispatchers.Main) {

@@ -9,14 +9,14 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/Theme.ArcaeaScores.AppBarOverlay">
+        android:theme="@style/Theme.ArcaeaScores">
 
-        <androidx.appcompat.widget.Toolbar
+        <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.ArcaeaScores.PopupOverlay" />
+            app:popupTheme="@style/Theme.ArcaeaScores" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -43,7 +43,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="PlayerName"
+                    android:text="Player Name"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:id="@+id/player_name"/>
@@ -52,7 +52,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="MaxPossiblePotential"
+                    android:text="@string/max_possible_potential"
                     android:id="@+id/max_potential"/>
 
                 <TextView
@@ -60,7 +60,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:textSize="15sp"
-                    android:text="LastUpdateDate"
+                    android:text="@string/last_update_date"
                     android:id="@+id/date"/>
 
 
@@ -78,7 +78,7 @@
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
+        android:id="@+id/button_refresh"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
