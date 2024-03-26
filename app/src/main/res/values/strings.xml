@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Arcaea Scores</string>
     <string name="about_app">About</string>
@@ -11,6 +12,7 @@
     <string name="best_thirty_potential">Best 30 Potential: </string>
     <string name="last_update_date">Last Update Date</string>
     <string name="update_time">Update Time</string>
+    <string name="player_name">Player Name</string>
     <string name="set_name">Set Name</string>
     <string name="update_failed">Update Failed</string>
     <string name="name_empty">Player name can not be empty.</string>

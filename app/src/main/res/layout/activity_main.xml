@@ -15,7 +15,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.ArcaeaScores" />
 
     </com.google.android.material.appbar.AppBarLayout>
@@ -31,7 +30,6 @@
             android:layout_height="wrap_content"
             app:cardCornerRadius="5dp"
             app:cardElevation="8dp"
-            android:background="@color/white"
             android:layout_margin="12dp">
 
             <LinearLayout
@@ -43,7 +41,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Player Name"
+                    android:text="@string/player_name"
                     android:textStyle="bold"
                     android:textSize="20sp"
                     android:id="@+id/player_name"/>

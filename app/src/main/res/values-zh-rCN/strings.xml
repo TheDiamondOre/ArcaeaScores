@@ -10,6 +10,7 @@
     <string name="tip_update_finished">游戏数据已更新！</string>
     <string name="max_possible_potential">最大可达成潜力值</string>
     <string name="best_thirty_potential">最佳30首潜力值:</string>
+    <string name="player_name">玩家名称</string>
     <string name="update_time">更新时间</string>
     <string name="set_name">设置名称</string>
     <string name="last_update_date">最后更新日期</string>

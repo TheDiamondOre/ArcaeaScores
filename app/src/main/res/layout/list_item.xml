@@ -7,7 +7,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="#ffffff"
         android:elevation="8dp"
         app:cardCornerRadius="5dp"
@@ -16,7 +16,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:padding="12dp"
             android:paddingTop="0dp"
             android:paddingBottom="2dp"
@@ -28,11 +28,12 @@
                 android:background="@color/black"
                 android:layout_marginEnd="12dp"
                 android:id="@+id/difficulty_color"/>
+
             <ImageView
+                android:id="@+id/song_cover"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginEnd="14dp"
-                android:src="@mipmap/ic_launcher"
                 android:contentDescription="Song Cover Placeholder"/>
 
             <LinearLayout
@@ -84,32 +85,26 @@
                     android:layout_marginBottom="4dp"
                     android:text="score"
                     android:textSize="15sp" />
-                <LinearLayout>android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical">
-                    
+                    <TextView
+                        android:id="@+id/notes"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="notes"
+                        android:textSize="13sp" />
                 <TextView
                     android:id="@+id/potential"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="4dp"
+                    android:layout_marginStart="5dp"
                     android:text="potential"
                     android:textSize="12sp"
                     android:textStyle="bold" />
-
-                <TextView
-                    android:id="@+id/notes"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="note_stats"
-                    android:textSize="13sp" />
                 </LinearLayout>
-
             </LinearLayout>
-
         </LinearLayout>
-
     </androidx.cardview.widget.CardView>
-
-
 </android.widget.LinearLayout>
