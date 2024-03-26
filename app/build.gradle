@@ -4,7 +4,7 @@ plugins {
 }
 
 android {
-    namespace "io.github.rosemoe.arcaeaScores"
+    namespace "io.github.wishatoz.arcaeascores"
     compileSdk 34
     buildToolsVersion = "34.0.0"
 
