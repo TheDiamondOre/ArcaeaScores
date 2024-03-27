@@ -50,6 +50,10 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
 
+    companion object {
+        private const val TAG = "SAVE_BITMAP"
+    }
+    
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -106,14 +110,14 @@ class MainActivity : AppCompatActivity() {
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
                             outputStream.close()
                         } catch (e: Exception) {
-                            Log.e("saveBitmapImage: ", e)
+                            Log.e(TAG, "saveBitmapImage: ", e)
                         }
                     }
                     values.put(MediaStore.Images.Media.IS_PENDING, false)
                     contentResolver.update(uri, values, null, null)
                     Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
-                    Log.e("saveBitmapImage: ", e)
+                    Log.e(TAG, "saveBitmapImage: ", e)
                 }
             }
         } else {
@@ -129,13 +133,13 @@ class MainActivity : AppCompatActivity() {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
                     outputStream.close()
                 } catch (e: Exception) {
-                    Log.e("saveBitmapImage: ", e)
+                    Log.e(TAG, "saveBitmapImage: ", e)
                 }
                 values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
                 contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
                 Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Log.e("saveBitmapImage: ", e)
+                Log.e(TAG, "saveBitmapImage: ", e)
             }
         }
     }
