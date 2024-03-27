@@ -1,17 +1,22 @@
+
 package io.github.rosemoe.arcaeaScores.app
 
 import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.content.ContentValues
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
+import android.os.Build
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.util.Linkify
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -20,6 +25,7 @@ import android.widget.EditText
 import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -33,6 +39,9 @@ import io.github.rosemoe.arcaeaScores.util.toScaledString
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.io.File
+import java.io.FileOutputStream
+import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -70,16 +79,65 @@ class MainActivity : AppCompatActivity() {
         updateScoreList()
     }
 
-    private fun createviewBitmap(view: View): Bitmap? {
+    private fun createViewBitmap(view: View): Bitmap? {
         val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
         return bitmap
     }
+    
+    private fun saveBitmapImage(bitmap: Bitmap) {
+        val timestamp = System.currentTimeMillis()
 
-    private fun saveImage(view: View){
-        val imageBit = createviewBitmap(view)
-        MediaStore.Images.Media.insertImage(contentResolver,imageBit,"Bests","Arcaea Bests")
+        //Tell the media scanner about the new file so that it is immediately available to the user.
+        val values = ContentValues()
+        values.put(MediaStore.Images.Media.MIME_TYPE, "image/png")
+        values.put(MediaStore.Images.Media.DATE_ADDED, timestamp)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            values.put(MediaStore.Images.Media.DATE_TAKEN, timestamp)
+            values.put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/" + getString(R.string.app_name))
+            values.put(MediaStore.Images.Media.IS_PENDING, true)
+            val uri = contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+            if (uri != null) {
+                try {
+                    val outputStream = contentResolver.openOutputStream(uri)
+                    if (outputStream != null) {
+                        try {
+                            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                            outputStream.close()
+                        } catch (e: Exception) {
+                            Log.e(TAG, "saveBitmapImage: ", e)
+                        }
+                    }
+                    values.put(MediaStore.Images.Media.IS_PENDING, false)
+                    contentResolver.update(uri, values, null, null)
+                    Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+                } catch (e: Exception) {
+                    Log.e(TAG, "saveBitmapImage: ", e)
+                }
+            }
+        } else {
+            val imageFileFolder = File(Environment.getExternalStorageDirectory().toString() + '/' + getString(R.string.app_name))
+            if (!imageFileFolder.exists()) {
+                imageFileFolder.mkdirs()
+            }
+            val mImageName = "$timestamp.png"
+            val imageFile = File(imageFileFolder, mImageName)
+            try {
+                val outputStream: OutputStream = FileOutputStream(imageFile)
+                try {
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
+                    outputStream.close()
+                } catch (e: Exception) {
+                    Log.e(TAG, "saveBitmapImage: ", e)
+                }
+                values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
+                contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
+                Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Log.e(TAG, "saveBitmapImage: ", e)
+            }
+        }
     }
 
     private fun onUpdateScoreClicked() {
@@ -206,11 +264,10 @@ class MainActivity : AppCompatActivity() {
                 true
             }
             R.id.action_saveimage -> {
-                saveImage(findViewById<LinearLayout>(R.id.list_full))
+                saveBitmapImage(createViewBitmap(findViewById<LinearLayout>(R.id.list_full)))
                 true
             }
             else -> super.onOptionsItemSelected(item)
         }
     }
-
 }
