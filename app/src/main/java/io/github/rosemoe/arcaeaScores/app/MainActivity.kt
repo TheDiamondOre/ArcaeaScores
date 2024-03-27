@@ -3,16 +3,21 @@ package io.github.rosemoe.arcaeaScores.app
 import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
 import android.graphics.Typeface
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.util.Linkify
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.ListView
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -63,6 +68,18 @@ class MainActivity : AppCompatActivity() {
         findViewById<TextView>(R.id.date).typeface = exoTypeface
 
         updateScoreList()
+    }
+
+    private fun createviewBitmap(view: View): Bitmap? {
+        val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)
+        val canvas = Canvas(bitmap)
+        view.draw(canvas)
+        return bitmap
+    }
+
+    private fun saveImage(view: View){
+        val imageBit = createviewBitmap(view)
+        MediaStore.Images.Media.insertImage(contentResolver,imageBit,"Bests","Arcaea Bests")
     }
 
     private fun onUpdateScoreClicked() {
@@ -156,14 +173,8 @@ class MainActivity : AppCompatActivity() {
                 withContext(Dispatchers.Main) {
                     findViewById<ListView>(R.id.score_list).adapter =
                         ArcaeaScoreAdapter(this@MainActivity, record.records)
-                    findViewById<TextView>(R.id.date).text =
-                        "Update Time: " + SimpleDateFormat.getDateTimeInstance(
-                            SimpleDateFormat.DEFAULT,
-                            SimpleDateFormat.DEFAULT,
-                            Locale.ENGLISH
-                        ).format(Date(updateTime))
-                    findViewById<TextView>(R.id.max_potential).text =
-                        "Best30: " + record.best30Potential.toScaledString() + "  Max Ptt: " + record.maxPotential.toScaledString()
+                    findViewById<TextView>(R.id.date).text = "Update Time: " + SimpleDateFormat.getDateTimeInstance(SimpleDateFormat.DEFAULT,SimpleDateFormat.DEFAULT,Locale.ENGLISH).format(Date(updateTime))
+                    findViewById<TextView>(R.id.max_potential).text = "Best30: " + record.best30Potential.toScaledString() + "  Max Ptt: " + record.maxPotential.toScaledString()
                 }
             }.onFailure {
                 it.printStackTrace()
@@ -182,7 +193,8 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.action_settings -> {
-                val text = Editable.Factory.getInstance().newEditable(getString(R.string.dialog_msg_about))
+                val text =
+                    Editable.Factory.getInstance().newEditable(getString(R.string.dialog_msg_about))
                 showMsgDialog(getString(R.string.about_app), text).apply {
                     findViewById<TextView>(android.R.id.message).apply {
                         autoLinkMask = Linkify.WEB_URLS
@@ -193,7 +205,10 @@ class MainActivity : AppCompatActivity() {
                 }
                 true
             }
-
+            R.id.action_saveimage -> {
+                saveImage(findViewById<LinearLayout>(R.id.list_full))
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }

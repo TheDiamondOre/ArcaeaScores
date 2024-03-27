@@ -33,6 +33,8 @@
             android:layout_margin="12dp">
 
             <LinearLayout
+                android:id="@+id/list_full"
+                android:background="@android:attr/colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
