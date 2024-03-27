@@ -79,7 +79,7 @@ class MainActivity : AppCompatActivity() {
         updateScoreList()
     }
 
-    private fun createViewBitmap(view: View): Bitmap? {
+    private fun createViewBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)
         val canvas = Canvas(bitmap)
         view.draw(canvas)
@@ -106,14 +106,14 @@ class MainActivity : AppCompatActivity() {
                             bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
                             outputStream.close()
                         } catch (e: Exception) {
-                            Log.e(TAG, "saveBitmapImage: ", e)
+                            Log.e("saveBitmapImage: ", e)
                         }
                     }
                     values.put(MediaStore.Images.Media.IS_PENDING, false)
                     contentResolver.update(uri, values, null, null)
                     Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveBitmapImage: ", e)
+                    Log.e("saveBitmapImage: ", e)
                 }
             }
         } else {
@@ -129,13 +129,13 @@ class MainActivity : AppCompatActivity() {
                     bitmap.compress(Bitmap.CompressFormat.JPEG, 90, outputStream)
                     outputStream.close()
                 } catch (e: Exception) {
-                    Log.e(TAG, "saveBitmapImage: ", e)
+                    Log.e("saveBitmapImage: ", e)
                 }
                 values.put(MediaStore.Images.Media.DATA, imageFile.absolutePath)
                 contentResolver.insert(MediaStore.Images.Media.EXTERNAL_CONTENT_URI, values)
                 Toast.makeText(this, "Saved...", Toast.LENGTH_SHORT).show()
             } catch (e: Exception) {
-                Log.e(TAG, "saveBitmapImage: ", e)
+                Log.e("saveBitmapImage: ", e)
             }
         }
     }
