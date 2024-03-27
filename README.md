@@ -1,4 +1,5 @@
 ## ArcaeaScores
+[![Android CI](https://github.com/WiSHATOZ/ArcaeaScores/actions/workflows/gradle.yaml/badge.svg)](https://github.com/WiSHATOZ/ArcaeaScores/actions/workflows/gradle.yaml)
 使用Root权限获取本地Arcaea存档，并计算Best30的工具(For Android Only)
 ### 下载
 从[这个页面](https://github.com/Rosemoe/ArcaeaScores/releases/latest/)下载app-release.apk
