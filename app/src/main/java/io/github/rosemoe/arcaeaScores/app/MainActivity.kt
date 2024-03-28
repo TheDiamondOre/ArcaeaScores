@@ -5,7 +5,10 @@ import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.ContentValues
+import android.content.Context
+import android.content.res.AssetManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.PorterDuff
@@ -53,7 +56,7 @@ class MainActivity : AppCompatActivity() {
     companion object {
         private const val TAG = "SAVE_BITMAP"
     }
-    
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
@@ -82,6 +85,8 @@ class MainActivity : AppCompatActivity() {
 
         updateScoreList()
     }
+
+
 
     private fun createViewBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)

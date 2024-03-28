@@ -39,7 +39,8 @@ fun readDatabase(context: Context): ArcaeaRecord {
                     cursor.getInt(cursor.getColumnIndex("nearCount")),
                     cursor.getInt(cursor.getColumnIndex("missCount"))
                 )
-                result.title = titles.queryForId(result.name)
+                result.title = titles.queryForLocalizedTitle(result.name)
+                result.needDownloading = titles.queryForNeedDownloading(result.name)
                 result.constant = constants.queryForId(result.name, result.difficulty)
                 result.playPotential = calculatePlayPotential(result.constant, result.score)
                 result.clearType =

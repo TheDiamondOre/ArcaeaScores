@@ -20,6 +20,7 @@
     </com.google.android.material.appbar.AppBarLayout>
 
     <LinearLayout
+        android:id="@+id/list_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="?attr/actionBarSize"
@@ -33,14 +34,24 @@
             android:layout_margin="12dp">
 
             <LinearLayout
-                android:id="@+id/list_full"
                 android:background="?android:attr/colorBackground"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:orientation="horizontal"
                 android:padding="16dp">
 
-                <TextView
+                <ImageView
+                    android:layout_height="match_parent"
+                    android:layout_width="wrap_content"
+                    android:id="@+id/player_avatar"
+                    tools:ignore="ContentDescription" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                    <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/player_name"
@@ -62,7 +73,7 @@
                     android:textSize="15sp"
                     android:text="@string/last_update_date"
                     android:id="@+id/date"/>
-
+                </LinearLayout>
 
             </LinearLayout>
 
@@ -84,6 +95,7 @@
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/refresh" />
+        app:srcCompat="@drawable/refresh"
+        tools:ignore="ContentDescription" />
 
 </RelativeLayout>

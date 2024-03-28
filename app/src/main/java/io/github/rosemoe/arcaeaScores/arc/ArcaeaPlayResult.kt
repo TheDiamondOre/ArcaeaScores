@@ -19,6 +19,7 @@ class ArcaeaPlayResult(val name:String, val difficulty: Int, val score: Long, va
 
     var title: String = "Unk"
 
+    var needDownloading: Boolean = false
     override fun compareTo(other: ArcaeaPlayResult): Int {
         val cmp = compare(playPotential, other.playPotential)
         if (cmp == 0) {
