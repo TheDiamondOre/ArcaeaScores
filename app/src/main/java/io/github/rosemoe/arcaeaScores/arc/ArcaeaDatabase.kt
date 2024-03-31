@@ -18,6 +18,7 @@ private val ScoreQueryColumns = arrayOf(
 fun readDatabase(context: Context): ArcaeaRecord {
     val titles = ArcaeaTitles(context.assets.open("songlist.json"))
     val constants = ArcaeaConstants(context.assets.open("constants.json"))
+    val avatar = ArcaeaAvatar(context.assets.open("avatars.json"))
     context.openOrCreateDatabase(
         "st3.db",
         AppCompatActivity.MODE_PRIVATE,

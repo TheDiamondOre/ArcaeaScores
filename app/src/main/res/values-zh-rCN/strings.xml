@@ -21,4 +21,6 @@
     <string name="dialog_title_root">注意</string>
     <string name="dialog_msg_root">我们需要 Root 权限读取 Arcaea 游戏存档\n\n如果您信任我们的应用，请授予我们 Root 权限。</string>
     <string name="dialog_msg_about">ArcaeaScores 是由 Rosemoe 开发，WiSHATOZ修改的，使用 Root 权限读取 Arcaea 游戏存档并自动计算 Best30 成绩的工具。\n\n从这里获取更新： https://github.com/Rosemoe/ArcaeaScores/releases/latest/</string>
+    <string name="action_import">导入存档文件</string>
+    <string name="select_avatar">选择头像</string>
 </resources>

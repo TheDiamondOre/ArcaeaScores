@@ -39,11 +39,11 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:padding="16dp">
-
                 <ImageView
                     android:layout_height="match_parent"
                     android:layout_width="wrap_content"
                     android:id="@+id/player_avatar"
+                    android:layout_marginEnd="10dp"
                     tools:ignore="ContentDescription" />
 
                     <LinearLayout

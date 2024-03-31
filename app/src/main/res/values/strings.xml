@@ -21,4 +21,6 @@
     <string name="dialog_title_root">Caution</string>
     <string name="dialog_msg_root">Root permission is required by the app to read your Arcaea game data.\n\nPlease permit root permission if you trust our app.</string>
     <string name="dialog_msg_about">ArcaeaScores reads Arcaea game data by Root and automatically computes best 30 scores, developed by Rosemoe and modified by WiSHATOZ.\n\nGet updates here: https://github.com/WiSHATOZ/ArcaeaScores/releases/latest/</string>
+    <string name="action_import">Import save file</string>
+    <string name="select_avatar">Select Avatar</string>
 </resources>

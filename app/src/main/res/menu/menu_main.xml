@@ -4,9 +4,14 @@
     tools:context="io.github.rosemoe.arcaeaScores.app.MainActivity">
     <item
         android:id="@+id/action_settings"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         android:title="@string/about_app"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_import"
+        android:orderInCategory="2"
+        android:title="@string/action_import"
+        />
     <item
         android:id="@+id/action_saveimage"
         android:orderInCategory="1"

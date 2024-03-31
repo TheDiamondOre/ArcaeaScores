@@ -69,7 +69,7 @@ class ArcaeaScoreAdapter(private val activity: Activity, private val data: List<
             .setBackgroundColor(difficultyMainColor(i.difficulty))
         view.findViewById<TextView>(R.id.clearType).text = "${scoreGrade(i.score)}|${clearTypeShortString(i.clearType)}"
         view.findViewById<TextView>(R.id.potential).text = "${i.constant} > ${String.format("%.2f",i.playPotential)}"
-        view.findViewById<TextView>(R.id.score).text = toScoreText( i.score)
+        view.findViewById<TextView>(R.id.score).text = toScoreText(i.score)
         view.findViewById<TextView>(R.id.rank).text = "#${position + 1}"
         view.findViewById<TextView>(R.id.notes).text = "P: ${i.pure}(+${i.maxPure}) \nF: ${i.far} \nL: ${i.lost}"
         return view

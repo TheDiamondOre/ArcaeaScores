@@ -1,0 +1,20 @@
+{
+  "avatars": [
+    {
+      "file": "2_icon.png",
+      "name_localized": {
+        "en": "Kou",
+        "zh": "红",
+        "jp": "紅"
+      }
+    },
+    {
+      "file" : "2u_icon.png",
+      "name_localized": {
+        "en": "Kou (Awakened)",
+        "zh": "红 (觉醒)",
+        "jp": "紅 (Awakened)"
+      }
+    }
+  ]
+}

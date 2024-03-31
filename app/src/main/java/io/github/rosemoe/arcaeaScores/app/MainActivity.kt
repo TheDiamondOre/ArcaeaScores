@@ -1,11 +1,16 @@
 
 package io.github.rosemoe.arcaeaScores.app
 
+import android.app.Activity
+import android.app.Dialog
 import android.app.ProgressDialog
 import android.content.SharedPreferences
 import android.content.res.ColorStateList
 import android.content.ContentValues
 import android.content.Context
+import android.content.DialogInterface
+import android.content.DialogInterface.OnClickListener
+import android.content.Intent
 import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -25,16 +30,23 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
+import android.widget.PopupMenu
+import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.rosemoe.arcaeaScores.R
+import io.github.rosemoe.arcaeaScores.arc.ArcaeaAvatar
+import io.github.rosemoe.arcaeaScores.arc.ArcaeaTitles
 import io.github.rosemoe.arcaeaScores.arc.readDatabase
 import io.github.rosemoe.arcaeaScores.util.showMsgDialog
 import io.github.rosemoe.arcaeaScores.util.showToast
@@ -43,13 +55,14 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
+import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class MainActivity : AppCompatActivity() {
+class MainActivity() : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
 
@@ -65,14 +78,18 @@ class MainActivity : AppCompatActivity() {
         prefs = getSharedPreferences("prefs", MODE_PRIVATE)
         findViewById<ListView>(R.id.score_list).dividerHeight = 0
         findViewById<FloatingActionButton>(R.id.button_refresh).let {
-            it.imageTintList = ColorStateList.valueOf(Color.WHITE)
-            it.imageTintMode = PorterDuff.Mode.SRC_ATOP
             it.setOnClickListener {
                 onUpdateScoreClicked()
             }
         }
         val exoSemiBold = Typeface.createFromAsset(assets, "fonts/Exo-SemiBold.ttf")
         val exoTypeface = Typeface.createFromAsset(assets, "fonts/Exo-Regular.ttf")
+        findViewById<ImageView>(R.id.player_avatar).let{
+            it.setImageBitmap(prefs.getString("player_avatar", "char/unknown_icon.png")?.let { it1 -> readBitmapFromAssets(it1) })
+            it.setOnClickListener{
+                onAvatarClicked()
+            }
+        }
         findViewById<TextView>(R.id.player_name).let {
             it.setOnClickListener {
                 onSetNameClicked()
@@ -82,11 +99,16 @@ class MainActivity : AppCompatActivity() {
         }
         findViewById<TextView>(R.id.max_potential).typeface = exoTypeface
         findViewById<TextView>(R.id.date).typeface = exoTypeface
-
         updateScoreList()
     }
 
-
+    private fun readBitmapFromAssets(fileName: String): Bitmap?{
+        var bitmap : Bitmap? = null
+        val inputStream = assets.open(fileName)
+        bitmap = BitmapFactory.decodeStream(inputStream)
+        inputStream.close()
+        return bitmap;
+    }
 
     private fun createViewBitmap(view: View): Bitmap {
         val bitmap = Bitmap.createBitmap(view.width,view.height,Bitmap.Config.RGB_565)
@@ -188,6 +210,25 @@ class MainActivity : AppCompatActivity() {
             .show()
     }
 
+    private fun onAvatarClicked() {
+        val avatars = ArcaeaAvatar(assets.open("avatars.json"))
+        var avatarName = emptyArray<String>()
+        for (i in 0 until avatars.queryForAvatarLength()){
+            avatarName += avatars.queryForAvatarName(i)
+        }
+        val pw = PopupWindow(this)
+        AlertDialog.Builder(this)
+            .setTitle(getString(R.string.select_avatar))
+            .setItems(avatarName) {dialog, which ->
+                findViewById<ImageView>(R.id.player_avatar).setImageBitmap(readBitmapFromAssets("char/${avatars.queryForAvatarFile(which)}"))
+            }
+            .show()
+    }
+/*
+    private fun copySave(type: String, filename: String): FileInputStream {
+
+    }
+*/
     @Suppress("DEPRECATION")
     private fun refreshScores() {
         val pd = ProgressDialog.show(this, getString(R.string.pd_dialog_title), "...", true, false)
@@ -202,7 +243,11 @@ class MainActivity : AppCompatActivity() {
                 val process = Runtime.getRuntime().exec("su -mm")
                 update(getString(R.string.state_obtaining_root))
                 process.outputStream.writer().use {
-                    it.write("mkdir /data/data/io.github.rosemoe.arcaeaScores/databases/\ncp -f /data/data/moe.low.arc/files/st3 /data/data/io.github.rosemoe.arcaeaScores/databases/st3.db\nchmod 777 /data/data/io.github.rosemoe.arcaeaScores/databases/\nexit\n")
+                    it.write("mkdir /data/data/io.github.rosemoe.arcaeaScores/databases/\n" +
+                            "cp -f /data/data/moe.low.arc/files/st3 /data/data/io.github.rosemoe.arcaeaScores/databases/st3.db\n" +
+                            "chmod 777 /data/data/io.github.rosemoe.arcaeaScores/databases/\n" +
+                            "chmod 666 /data/data/io.github.rosemoe.arcaeaScores/databases/st3.db\n" +
+                            "exit\n")
                     it.flush()
                 }
                 update(getString(R.string.state_reading_save))
@@ -274,6 +319,10 @@ class MainActivity : AppCompatActivity() {
             }
             R.id.action_saveimage -> {
                 saveBitmapImage(createViewBitmap(findViewById<LinearLayout>(R.id.list_full)))
+                true
+            }
+            R.id.action_import -> {
+                //TODO
                 true
             }
             else -> super.onOptionsItemSelected(item)
