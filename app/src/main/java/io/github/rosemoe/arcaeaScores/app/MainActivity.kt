@@ -1,25 +1,15 @@
 
 package io.github.rosemoe.arcaeaScores.app
 
-import android.app.Activity
-import android.app.Dialog
 import android.app.ProgressDialog
-import android.content.SharedPreferences
-import android.content.res.ColorStateList
 import android.content.ContentValues
-import android.content.Context
-import android.content.DialogInterface
-import android.content.DialogInterface.OnClickListener
-import android.content.Intent
-import android.content.res.AssetManager
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.PorterDuff
 import android.graphics.Typeface
-import android.os.Bundle
 import android.os.Build
+import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
@@ -33,8 +23,6 @@ import android.widget.EditText
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.ListView
-import android.widget.PopupMenu
-import android.widget.PopupWindow
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
@@ -42,11 +30,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
 import androidx.lifecycle.lifecycleScope
-import com.google.android.material.dialog.MaterialDialogs
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import io.github.rosemoe.arcaeaScores.R
 import io.github.rosemoe.arcaeaScores.arc.ArcaeaAvatar
-import io.github.rosemoe.arcaeaScores.arc.ArcaeaTitles
 import io.github.rosemoe.arcaeaScores.arc.readDatabase
 import io.github.rosemoe.arcaeaScores.util.showMsgDialog
 import io.github.rosemoe.arcaeaScores.util.showToast
@@ -55,17 +41,32 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.io.File
-import java.io.FileInputStream
 import java.io.FileOutputStream
 import java.io.OutputStream
+import java.nio.file.Files
+import java.nio.file.Paths
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class MainActivity() : AppCompatActivity() {
+class MainActivity : AppCompatActivity() {
 
     private lateinit var prefs: SharedPreferences
-
+    private val copySave = registerForActivityResult(ActivityResultContracts.GetContent()){ uri ->
+        if (uri != null) {
+            val dbPath = Paths.get(applicationContext.filesDir.path + "/../databases/st3.db")
+            val fileInputStream = contentResolver.openInputStream(uri)!!
+            fileInputStream.use { input ->
+                Files.deleteIfExists(dbPath)
+                Files.copy(input, dbPath)
+                updateScoreList()
+                showToast(R.string.tip_update_finished)
+                prefs.edit {
+                    putLong("date", System.currentTimeMillis())
+                }
+            }
+        }
+    }
     companion object {
         private const val TAG = "SAVE_BITMAP"
     }
@@ -103,11 +104,11 @@ class MainActivity() : AppCompatActivity() {
     }
 
     private fun readBitmapFromAssets(fileName: String): Bitmap?{
-        var bitmap : Bitmap? = null
+        val bitmap : Bitmap?
         val inputStream = assets.open(fileName)
         bitmap = BitmapFactory.decodeStream(inputStream)
         inputStream.close()
-        return bitmap;
+        return bitmap
     }
 
     private fun createViewBitmap(view: View): Bitmap {
@@ -216,19 +217,23 @@ class MainActivity() : AppCompatActivity() {
         for (i in 0 until avatars.queryForAvatarLength()){
             avatarName += avatars.queryForAvatarName(i)
         }
-        val pw = PopupWindow(this)
         AlertDialog.Builder(this)
             .setTitle(getString(R.string.select_avatar))
-            .setItems(avatarName) {dialog, which ->
+            .setItems(avatarName) {_, which ->
                 findViewById<ImageView>(R.id.player_avatar).setImageBitmap(readBitmapFromAssets("char/${avatars.queryForAvatarFile(which)}"))
+                prefs.edit{
+                    putString("player_avatar", "char/${avatars.queryForAvatarFile(which)}")
+                }
             }
+            .setNegativeButton(android.R.string.cancel, null)
             .show()
     }
-/*
-    private fun copySave(type: String, filename: String): FileInputStream {
 
+    private fun onCopySaveClicked() {
+        copySave.launch("*/*")
     }
-*/
+
+
     @Suppress("DEPRECATION")
     private fun refreshScores() {
         val pd = ProgressDialog.show(this, getString(R.string.pd_dialog_title), "...", true, false)
@@ -322,7 +327,7 @@ class MainActivity() : AppCompatActivity() {
                 true
             }
             R.id.action_import -> {
-                //TODO
+                onCopySaveClicked()
                 true
             }
             else -> super.onOptionsItemSelected(item)
